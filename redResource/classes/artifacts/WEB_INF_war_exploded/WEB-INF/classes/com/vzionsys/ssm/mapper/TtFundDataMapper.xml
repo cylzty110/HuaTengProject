@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vzionsys.ssm.mapper.TtFundDataMapper" >
+  <resultMap id="BaseResultMap" type="com.vzionsys.ssm.po.TtFundData" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="USERID" property="userid" jdbcType="INTEGER" />
+    <result column="PROBILITY" property="probility" jdbcType="VARCHAR" />
+    <result column="TASK_BATCH" property="taskBatch" jdbcType="VARCHAR" />
+    <result column="CREAT_DATE" property="creatDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, USERID, PROBILITY, TASK_BATCH, CREAT_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vzionsys.ssm.po.TtFundDataExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tt_fund_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tt_fund_data
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tt_fund_data
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vzionsys.ssm.po.TtFundDataExample" >
+    delete from tt_fund_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vzionsys.ssm.po.TtFundData" >
+    insert into tt_fund_data (ID, USERID, PROBILITY, 
+      TASK_BATCH, CREAT_DATE)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{probility,jdbcType=VARCHAR}, 
+      #{taskBatch,jdbcType=VARCHAR}, #{creatDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vzionsys.ssm.po.TtFundData" >
+    insert into tt_fund_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="probility != null" >
+        PROBILITY,
+      </if>
+      <if test="taskBatch != null" >
+        TASK_BATCH,
+      </if>
+      <if test="creatDate != null" >
+        CREAT_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="probility != null" >
+        #{probility,jdbcType=VARCHAR},
+      </if>
+      <if test="taskBatch != null" >
+        #{taskBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="creatDate != null" >
+        #{creatDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vzionsys.ssm.po.TtFundDataExample" resultType="java.lang.Integer" >
+    select count(*) from tt_fund_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tt_fund_data
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        USERID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.probility != null" >
+        PROBILITY = #{record.probility,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskBatch != null" >
+        TASK_BATCH = #{record.taskBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatDate != null" >
+        CREAT_DATE = #{record.creatDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tt_fund_data
+    set ID = #{record.id,jdbcType=INTEGER},
+      USERID = #{record.userid,jdbcType=INTEGER},
+      PROBILITY = #{record.probility,jdbcType=VARCHAR},
+      TASK_BATCH = #{record.taskBatch,jdbcType=VARCHAR},
+      CREAT_DATE = #{record.creatDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vzionsys.ssm.po.TtFundData" >
+    update tt_fund_data
+    <set >
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="probility != null" >
+        PROBILITY = #{probility,jdbcType=VARCHAR},
+      </if>
+      <if test="taskBatch != null" >
+        TASK_BATCH = #{taskBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="creatDate != null" >
+        CREAT_DATE = #{creatDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vzionsys.ssm.po.TtFundData" >
+    update tt_fund_data
+    set USERID = #{userid,jdbcType=INTEGER},
+      PROBILITY = #{probility,jdbcType=VARCHAR},
+      TASK_BATCH = #{taskBatch,jdbcType=VARCHAR},
+      CREAT_DATE = #{creatDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

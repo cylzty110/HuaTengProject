@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vzionsys.ssm.mapper.ScrTxndnInfMapper" >
+  <resultMap id="BaseResultMap" type="com.vzionsys.ssm.po.ScrTxndnInf" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="TXN_CFM_DT" property="txnCfmDt" jdbcType="VARCHAR" />
+    <result column="FNDBGAMTRDMTNPCSGTPCD" property="fndbgamtrdmtnpcsgtpcd" jdbcType="VARCHAR" />
+    <result column="CFM_PCSG_TXNSRLNO" property="cfmPcsgTxnsrlno" jdbcType="VARCHAR" />
+    <result column="CFM_TXNAMT" property="cfmTxnamt" jdbcType="VARCHAR" />
+    <result column="SCR_TXN_ACCNO" property="scrTxnAccno" jdbcType="VARCHAR" />
+    <result column="CST_SCRTACNO" property="cstScrtacno" jdbcType="VARCHAR" />
+    <result column="TXN_ITT_CHNL_CGY_CODE" property="txnIttChnlCgyCode" jdbcType="VARCHAR" />
+    <result column="BYSLDRC_CD" property="bysldrcCd" jdbcType="VARCHAR" />
+    <result column="SYS_TX_CODE" property="sysTxCode" jdbcType="VARCHAR" />
+    <result column="SCR_PD_ECD" property="scrPdEcd" jdbcType="VARCHAR" />
+    <result column="APLY_ID" property="aplyId" jdbcType="VARCHAR" />
+    <result column="CFM_TXN_LOT" property="cfmTxnLot" jdbcType="VARCHAR" />
+    <result column="UPLOAD_TIME" property="uploadTime" jdbcType="VARCHAR" />
+    <result column="UPLOAD_USER" property="uploadUser" jdbcType="VARCHAR" />
+    <result column="UPLOAD_BATCH" property="uploadBatch" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, TXN_CFM_DT, FNDBGAMTRDMTNPCSGTPCD, CFM_PCSG_TXNSRLNO, CFM_TXNAMT, SCR_TXN_ACCNO, 
+    CST_SCRTACNO, TXN_ITT_CHNL_CGY_CODE, BYSLDRC_CD, SYS_TX_CODE, SCR_PD_ECD, APLY_ID, 
+    CFM_TXN_LOT, UPLOAD_TIME, UPLOAD_USER, UPLOAD_BATCH
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vzionsys.ssm.po.ScrTxndnInfExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from scr_txndn_inf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.vzionsys.ssm.po.ScrTxndnInfExample" >
+    delete from scr_txndn_inf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vzionsys.ssm.po.ScrTxndnInf" >
+    insert into scr_txndn_inf (ID, TXN_CFM_DT, FNDBGAMTRDMTNPCSGTPCD, 
+      CFM_PCSG_TXNSRLNO, CFM_TXNAMT, SCR_TXN_ACCNO, 
+      CST_SCRTACNO, TXN_ITT_CHNL_CGY_CODE, BYSLDRC_CD, 
+      SYS_TX_CODE, SCR_PD_ECD, APLY_ID, 
+      CFM_TXN_LOT, UPLOAD_TIME, UPLOAD_USER, 
+      UPLOAD_BATCH)
+    values (#{id,jdbcType=INTEGER}, #{txnCfmDt,jdbcType=VARCHAR}, #{fndbgamtrdmtnpcsgtpcd,jdbcType=VARCHAR}, 
+      #{cfmPcsgTxnsrlno,jdbcType=VARCHAR}, #{cfmTxnamt,jdbcType=VARCHAR}, #{scrTxnAccno,jdbcType=VARCHAR}, 
+      #{cstScrtacno,jdbcType=VARCHAR}, #{txnIttChnlCgyCode,jdbcType=VARCHAR}, #{bysldrcCd,jdbcType=VARCHAR}, 
+      #{sysTxCode,jdbcType=VARCHAR}, #{scrPdEcd,jdbcType=VARCHAR}, #{aplyId,jdbcType=VARCHAR}, 
+      #{cfmTxnLot,jdbcType=VARCHAR}, #{uploadTime,jdbcType=VARCHAR}, #{uploadUser,jdbcType=VARCHAR}, 
+      #{uploadBatch,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vzionsys.ssm.po.ScrTxndnInf" >
+    insert into scr_txndn_inf
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="txnCfmDt != null" >
+        TXN_CFM_DT,
+      </if>
+      <if test="fndbgamtrdmtnpcsgtpcd != null" >
+        FNDBGAMTRDMTNPCSGTPCD,
+      </if>
+      <if test="cfmPcsgTxnsrlno != null" >
+        CFM_PCSG_TXNSRLNO,
+      </if>
+      <if test="cfmTxnamt != null" >
+        CFM_TXNAMT,
+      </if>
+      <if test="scrTxnAccno != null" >
+        SCR_TXN_ACCNO,
+      </if>
+      <if test="cstScrtacno != null" >
+        CST_SCRTACNO,
+      </if>
+      <if test="txnIttChnlCgyCode != null" >
+        TXN_ITT_CHNL_CGY_CODE,
+      </if>
+      <if test="bysldrcCd != null" >
+        BYSLDRC_CD,
+      </if>
+      <if test="sysTxCode != null" >
+        SYS_TX_CODE,
+      </if>
+      <if test="scrPdEcd != null" >
+        SCR_PD_ECD,
+      </if>
+      <if test="aplyId != null" >
+        APLY_ID,
+      </if>
+      <if test="cfmTxnLot != null" >
+        CFM_TXN_LOT,
+      </if>
+      <if test="uploadTime != null" >
+        UPLOAD_TIME,
+      </if>
+      <if test="uploadUser != null" >
+        UPLOAD_USER,
+      </if>
+      <if test="uploadBatch != null" >
+        UPLOAD_BATCH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="txnCfmDt != null" >
+        #{txnCfmDt,jdbcType=VARCHAR},
+      </if>
+      <if test="fndbgamtrdmtnpcsgtpcd != null" >
+        #{fndbgamtrdmtnpcsgtpcd,jdbcType=VARCHAR},
+      </if>
+      <if test="cfmPcsgTxnsrlno != null" >
+        #{cfmPcsgTxnsrlno,jdbcType=VARCHAR},
+      </if>
+      <if test="cfmTxnamt != null" >
+        #{cfmTxnamt,jdbcType=VARCHAR},
+      </if>
+      <if test="scrTxnAccno != null" >
+        #{scrTxnAccno,jdbcType=VARCHAR},
+      </if>
+      <if test="cstScrtacno != null" >
+        #{cstScrtacno,jdbcType=VARCHAR},
+      </if>
+      <if test="txnIttChnlCgyCode != null" >
+        #{txnIttChnlCgyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bysldrcCd != null" >
+        #{bysldrcCd,jdbcType=VARCHAR},
+      </if>
+      <if test="sysTxCode != null" >
+        #{sysTxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="scrPdEcd != null" >
+        #{scrPdEcd,jdbcType=VARCHAR},
+      </if>
+      <if test="aplyId != null" >
+        #{aplyId,jdbcType=VARCHAR},
+      </if>
+      <if test="cfmTxnLot != null" >
+        #{cfmTxnLot,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadTime != null" >
+        #{uploadTime,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadUser != null" >
+        #{uploadUser,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadBatch != null" >
+        #{uploadBatch,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vzionsys.ssm.po.ScrTxndnInfExample" resultType="java.lang.Integer" >
+    select count(*) from scr_txndn_inf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update scr_txndn_inf
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.txnCfmDt != null" >
+        TXN_CFM_DT = #{record.txnCfmDt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fndbgamtrdmtnpcsgtpcd != null" >
+        FNDBGAMTRDMTNPCSGTPCD = #{record.fndbgamtrdmtnpcsgtpcd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cfmPcsgTxnsrlno != null" >
+        CFM_PCSG_TXNSRLNO = #{record.cfmPcsgTxnsrlno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cfmTxnamt != null" >
+        CFM_TXNAMT = #{record.cfmTxnamt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scrTxnAccno != null" >
+        SCR_TXN_ACCNO = #{record.scrTxnAccno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cstScrtacno != null" >
+        CST_SCRTACNO = #{record.cstScrtacno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.txnIttChnlCgyCode != null" >
+        TXN_ITT_CHNL_CGY_CODE = #{record.txnIttChnlCgyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bysldrcCd != null" >
+        BYSLDRC_CD = #{record.bysldrcCd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysTxCode != null" >
+        SYS_TX_CODE = #{record.sysTxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scrPdEcd != null" >
+        SCR_PD_ECD = #{record.scrPdEcd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aplyId != null" >
+        APLY_ID = #{record.aplyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cfmTxnLot != null" >
+        CFM_TXN_LOT = #{record.cfmTxnLot,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadTime != null" >
+        UPLOAD_TIME = #{record.uploadTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadUser != null" >
+        UPLOAD_USER = #{record.uploadUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadBatch != null" >
+        UPLOAD_BATCH = #{record.uploadBatch,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update scr_txndn_inf
+    set ID = #{record.id,jdbcType=INTEGER},
+      TXN_CFM_DT = #{record.txnCfmDt,jdbcType=VARCHAR},
+      FNDBGAMTRDMTNPCSGTPCD = #{record.fndbgamtrdmtnpcsgtpcd,jdbcType=VARCHAR},
+      CFM_PCSG_TXNSRLNO = #{record.cfmPcsgTxnsrlno,jdbcType=VARCHAR},
+      CFM_TXNAMT = #{record.cfmTxnamt,jdbcType=VARCHAR},
+      SCR_TXN_ACCNO = #{record.scrTxnAccno,jdbcType=VARCHAR},
+      CST_SCRTACNO = #{record.cstScrtacno,jdbcType=VARCHAR},
+      TXN_ITT_CHNL_CGY_CODE = #{record.txnIttChnlCgyCode,jdbcType=VARCHAR},
+      BYSLDRC_CD = #{record.bysldrcCd,jdbcType=VARCHAR},
+      SYS_TX_CODE = #{record.sysTxCode,jdbcType=VARCHAR},
+      SCR_PD_ECD = #{record.scrPdEcd,jdbcType=VARCHAR},
+      APLY_ID = #{record.aplyId,jdbcType=VARCHAR},
+      CFM_TXN_LOT = #{record.cfmTxnLot,jdbcType=VARCHAR},
+      UPLOAD_TIME = #{record.uploadTime,jdbcType=VARCHAR},
+      UPLOAD_USER = #{record.uploadUser,jdbcType=VARCHAR},
+      UPLOAD_BATCH = #{record.uploadBatch,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
