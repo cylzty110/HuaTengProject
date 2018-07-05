@@ -7,14 +7,6 @@
     <result column="FUND_ID_SECOND" property="fundIdSecond" jdbcType="VARCHAR" />
     <result column="SCORE" property="score" jdbcType="VARCHAR" />
   </resultMap>
-    <insert id="insertList"  useGeneratedKeys="true" parameterType="java.util.List">
-    insert into SIMILARITY (ID, FUND_ID_FIRST, FUND_ID_SECOND, SCORE)
-    values
-    <foreach collection="list" item="item" index="index" separator="," >
-      (#{item.id,jdbcType=INTEGER}, #{item.fundIdFirst,jdbcType=VARCHAR}, #{item.fundIdSecond,jdbcType=VARCHAR}, 
-      #{item.score,jdbcType=VARCHAR})
-    </foreach>
-  </insert>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -111,6 +103,14 @@
       SCORE)
     values (#{id,jdbcType=INTEGER}, #{fundIdFirst,jdbcType=VARCHAR}, #{fundIdSecond,jdbcType=VARCHAR}, 
       #{score,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertList"  useGeneratedKeys="true" parameterType="java.util.List">
+    insert into SIMILARITY (ID, FUND_ID_FIRST, FUND_ID_SECOND, SCORE)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.id,jdbcType=INTEGER}, #{item.fundIdFirst,jdbcType=VARCHAR}, #{item.fundIdSecond,jdbcType=VARCHAR}, 
+      #{item.score,jdbcType=VARCHAR})
+    </foreach>
   </insert>
   <insert id="insertSelective" parameterType="com.vzionsys.ssm.po.Similarity" >
     insert into SIMILARITY

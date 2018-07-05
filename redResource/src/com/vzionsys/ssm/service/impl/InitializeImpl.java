@@ -1,6 +1,8 @@
 package com.vzionsys.ssm.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.vzionsys.ssm.mapper.ScrTnacMapper;
 import com.vzionsys.ssm.mapper.ScrTxndnInfMapper;
 import com.vzionsys.ssm.mapper.SimilarityMapper;
+import com.vzionsys.ssm.mapper.TsTaskInfoMapper;
 import com.vzionsys.ssm.mapper.TtFundDataMapper;
 import com.vzionsys.ssm.po.ScrTnac;
 import com.vzionsys.ssm.po.ScrTnacExample;
@@ -23,6 +26,9 @@ import com.vzionsys.ssm.po.ScrTxndnInf;
 import com.vzionsys.ssm.po.ScrTxndnInfExample;
 import com.vzionsys.ssm.po.Similarity;
 import com.vzionsys.ssm.po.SimilarityExample;
+import com.vzionsys.ssm.po.TsTaskInfo;
+import com.vzionsys.ssm.po.TsTaskInfoExample;
+import com.vzionsys.ssm.po.TtFundData;
 import com.vzionsys.ssm.po.TtFundDataExample;
 
 @Service
@@ -36,132 +42,222 @@ public class InitializeImpl implements ApplicationListener<ContextRefreshedEvent
 	private SimilarityMapper similarityMapper;
 	@Resource
 	private TtFundDataMapper ttmaDataMapper;
+	@Resource
+	private TsTaskInfoMapper tsTaskInfoMapper;
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event){
 		
 		if(event.getApplicationContext().getParent() == null){
-			ScrTnacExample scatnaExample = new ScrTnacExample();
-			ScrTxndnInfExample scrTxndnInfExample = new ScrTxndnInfExample();
-			SimilarityExample similarityExample = new SimilarityExample();
-			Set<String> set = new HashSet<>();
 			
-			long ct = System.currentTimeMillis();
-			List<ScrTnac> userlist = scrTnacMapper.selectByExample(scatnaExample);
-			List<ScrTxndnInf> datalist = new ArrayList<>();
-			
-			List<Similarity> similaritieList = new ArrayList<>();
-			List<String> list = new ArrayList<>();
-			
-			Map<String,Map<String,Integer>> relationmap = new HashMap<>();
-			Map<String, Integer> innermap = new HashMap<>();
-	        Map<String, Integer> tempinnermap = new HashMap<>();
-	        Map<String,Set<String>> map = new HashMap<>();
-	        Map<String,Set<String>> fundMap = new HashMap<>();
-			
+			/*
+			String fundNum = "1";
+			String tnacUploadBatch = "1";
+			String txndnUploadBatch = "1";
+			String taskBatch = "1";
+			int count = 0;
 			String SCR_TXN_ACCNO = "";
 			String SCR_PD_ECD = "";
 			
-			scrTxndnInfExample.clear();
-			datalist = scrTxndnInfMapper.selectByExample(scrTxndnInfExample);
-			for(int i = 0; i < datalist.size(); i++){
-				ScrTxndnInf scrTnac = datalist.get(i);
-				SCR_TXN_ACCNO = scrTnac.getScrTxnAccno();
-				SCR_PD_ECD = scrTnac.getScrPdEcd();
-				if(map.containsKey(SCR_TXN_ACCNO)){
-					Set<String> s = map.get(SCR_TXN_ACCNO);
-					s.add(SCR_PD_ECD);
-					map.put(SCR_TXN_ACCNO, s);
-				}
-				else{
-					Set<String> s = new  HashSet<>();
-					s.add(SCR_PD_ECD);
-					map.put(SCR_TXN_ACCNO, s);
-				}
+			SimilarityExample similarityExample = new SimilarityExample();
+			
+			List<ScrTnac> userlist = scrTnacMapper.selectAll(tnacUploadBatch);
+			List<ScrTxndnInf> datalist = new ArrayList<>();
+			List<String> fundList = new ArrayList<>(); 
+			List<String> list = new ArrayList<>();
+			List<TtFundData> ttFundDatas = new ArrayList<>();
+			List<Similarity> similarityList = new ArrayList<>();
+			
+			Map<String,Map<String,Double>> relationMap = new HashMap<>();//相似度矩阵
+			Map<String,Integer> userMap = new HashMap<>();//每款基金购买用户
+			Set<String> fundSet = new HashSet<>();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		    Date time = null;
+			try {
+				time = sdf.parse(sdf.format(new Date()));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			//System.out.println("耗时:"+ (System.currentTimeMillis() - ct));
 			
-			
+			long ct = System.currentTimeMillis();
 			similarityMapper.deleteByExample(similarityExample);
-			for(int i = 0; i < userlist.size(); i++){
-				SCR_TXN_ACCNO = userlist.get(i).getScrTxnAccno();
-				if(map.containsKey(SCR_TXN_ACCNO)){
-					set = map.get(SCR_TXN_ACCNO);
-				}
-				
-				for(String s : set){
-					list.add(s);
-				}
-				
-				for(int j = 0; j < list.size(); j++){
-	                String firstid = list.get(j);
-	                if(!relationmap.containsKey(firstid)){
-	                    innermap = new HashMap<String, Integer>();
-	                    relationmap.put(firstid, innermap);
-	                }
-	                tempinnermap = relationmap.get(firstid);
-	                for(int k = 0; k <list.size(); k++){
-	                    if(j == k) continue;
-	                    String secondid = list.get(k);
-	                    if (!tempinnermap.containsKey(secondid)) {
-	                        tempinnermap.put(secondid, 1);
-	                    } else {
-	                        int num = tempinnermap.get(secondid) + 1;
-	                        tempinnermap.put(secondid, num);
-	                    }
-	                }
-	            }
-				list.clear();
-			}
-			
-			scrTxndnInfExample.clear();
-			datalist = scrTxndnInfMapper.selectByExample(scrTxndnInfExample);
-			for(int i = 0; i < datalist.size(); i++){
-				SCR_TXN_ACCNO = datalist.get(i).getScrTxnAccno();
-				SCR_PD_ECD = datalist.get(i).getScrPdEcd();
-				if(fundMap.containsKey(SCR_PD_ECD)){
-					Set<String> s = fundMap.get(SCR_PD_ECD);
-					s.add(SCR_TXN_ACCNO);
-					fundMap.put(SCR_PD_ECD, s);
-				}
-				else{
-					Set<String> s = new HashSet<>();
-					s.add(SCR_TXN_ACCNO);
-					fundMap.put(SCR_PD_ECD, s);
-				}
-			}
-			
-			
-			int listSize = 0;
-			for(String fundFirstId : relationmap.keySet()){
-				innermap = relationmap.get(fundFirstId);
-				for(String fundSecondId : innermap.keySet()){
-					double score = (double) innermap.get(fundSecondId);
-					int num1 = fundMap.get(fundFirstId).size();
-					int num2 = fundMap.get(fundSecondId).size();
+			//计算相似度矩阵-step1
+			for(int i = 0; i < userlist.size() ; i++){
+				list.add(userlist.get(i).getScrTxnAccno());
+				count++;
+				if((count == 1000) || (i == userlist.size()-1)){
+					count = 0;
+					datalist = scrTxndnInfMapper.selectByAccnos(list,txndnUploadBatch);
+					for(int j = 0; j < datalist.size(); j++){
+						SCR_TXN_ACCNO = datalist.get(j).getScrTxnAccno();
+						SCR_PD_ECD = datalist.get(j).getScrPdEcd();
+						if(userMap.containsKey(SCR_PD_ECD)){
+							int num = userMap.get(SCR_PD_ECD);
+							userMap.put(SCR_PD_ECD, num + 1);
+						}
+						else{
+							userMap.put(SCR_PD_ECD,1);
+						}
+						fundSet.add(SCR_PD_ECD);
+					}
 					
-					score = score / Math.sqrt((double)num1) / Math.sqrt((double)num2) ;
+					if(fundSet.size() > 0){
+						for(String s : fundSet) fundList.add(s);
+					}
+					
+					for(int j = 0; j < fundList.size(); j++){
+		                String firstid = fundList.get(j);
+		                if(!relationMap.containsKey(firstid)){
+		                    Map<String,Double> innermap = new HashMap<>();
+		                    relationMap.put(firstid, innermap);
+		                }
+		                Map<String,Double> tempinnermap = relationMap.get(firstid);
+		                for(int k = 0; k <fundList.size(); k++){
+		                    if(j == k) continue;
+		                    String secondid = fundList.get(k);
+		                    if (!tempinnermap.containsKey(secondid)) {
+		                        tempinnermap.put(secondid, 1.0);
+		                    } else {
+		                        double num = tempinnermap.get(secondid) + 1;
+		                        tempinnermap.put(secondid, num);
+		                    }
+		                }
+		            }
+					list.clear();
+					fundSet.clear();
+				}
+			}
+			
+			//计算相似度矩阵-step2
+			int listSize = 0;
+			int resultSize = 0;
+			double val = 0;
+			double maxval = 0;
+			similarityList = new ArrayList<>();
+			for(String userId : relationMap.keySet()){
+				Map<String,Double> map = relationMap.get(userId);
+				for(String fundId : map.keySet()){
+					val = map.get(fundId);
+					int num1 = userMap.get(userId);
+					int num2 = userMap.get(fundId);
+					val = val / Math.sqrt((double) num1) / Math.sqrt((double) num2);
+					map.put(fundId, val);
+					maxval = Math.max(val, maxval);
+				}
+				
+				for(String fundId : map.keySet()){
+					val = map.get(fundId);
+					if(maxval == 0) val = 0;
+					else val = val / maxval;
 					Similarity similarity = new Similarity();
-					similarity.setFundIdFirst(fundFirstId);
-					similarity.setFundIdSecond(fundSecondId);
-					similarity.setScore(String.valueOf(score));
-					similaritieList.add(similarity);
+					similarity.setFundIdFirst(userId);
+					similarity.setFundIdSecond(fundId);
+					similarity.setScore(String.valueOf(val));
+					similarityList.add(similarity);
 					listSize++;
 				    if(listSize == 1000){
-				    	similarityMapper.insertList(similaritieList);
-				    	similaritieList.clear();
+				    	similarityMapper.insertList(similarityList);
+				    	similarityList.clear();
 				    	listSize = 0;
 				    } 
-				}	
+				}		
 			}
 			
-			if(similaritieList.size() > 0) {
-				similarityMapper.insertList(similaritieList);
+			
+			
+			if(similarityList.size() > 0) {
+				similarityMapper.insertList(similarityList);
 			}
 			
+			
+			Map<String,Map<String,Integer>> buyMap = new HashMap<>();//购买记录
+			count = 0;
+			similarityExample.clear();
+			similarityExample.createCriteria().andFundIdFirstEqualTo(fundNum);
+			similarityList = similarityMapper.selectByExample(similarityExample);
+			for(int i = 0; i < userlist.size(); i++){
+				list.add(userlist.get(i).getScrTxnAccno());
+				count++;
+				if((count == 1000) || (i == userlist.size()-1)){
+					datalist = scrTxndnInfMapper.selectByAccnos(list,txndnUploadBatch);
+					for(int j = 0; j < datalist.size(); j++){
+						SCR_TXN_ACCNO = datalist.get(j).getScrTxnAccno();
+						SCR_PD_ECD = datalist.get(j).getScrPdEcd();
+						if(buyMap.containsKey(SCR_TXN_ACCNO)){
+							Map<String,Integer> map = buyMap.get(SCR_TXN_ACCNO);
+							if(map.containsKey(SCR_PD_ECD)){
+								int num = map.get(SCR_PD_ECD);
+								map.put(SCR_PD_ECD, num + 1);
+							}
+							else{
+								map.put(SCR_PD_ECD, 1);
+							}
+						}
+						else{
+							Map<String,Integer> map = new HashMap<>();
+							map.put(SCR_PD_ECD, 1);
+							buyMap.put(SCR_TXN_ACCNO, map);
+						}
+					}
+					
+					for(int j = 0; j < list.size(); j++){
+						double result = 0;
+						SCR_TXN_ACCNO = list.get(j);
+						if(!buyMap.containsKey(SCR_TXN_ACCNO)) continue;
+						if(buyMap.get(SCR_TXN_ACCNO).containsKey(fundNum)) continue;
+						Map<String,Integer> map = buyMap.get(SCR_TXN_ACCNO);
+						double sum = 0;
+						
+						for(String funid : map.keySet()){
+							sum += map.get(funid);
+						}
+						
+						for(int k = 0; k < similarityList.size(); k++){
+							String fundId = similarityList.get(k).getFundIdSecond();
+							double value = Double.valueOf(similarityList.get(k).getScore());
+							if(map.containsKey(fundId)){
+								result += value * (double)map.get(fundId) / sum;
+							}
+						}
+								
+						TtFundData ttFundData = new TtFundData();
+						ttFundData.setProbility(String.valueOf(result));
+						ttFundData.setUserid(SCR_TXN_ACCNO);
+						ttFundData.setTaskBatch(taskBatch);
+					    ttFundData.setCreateDate(time);
+						ttFundDatas.add(ttFundData);
+						if(ttFundDatas.size() > 1000){
+							ttmaDataMapper.insertList(ttFundDatas);
+							resultSize += ttFundDatas.size();
+							ttFundDatas.clear();
+						}
+					}
+					buyMap.clear();
+					list.clear();
+					count = 0;
+				}
+				
+			}
+			
+			if(ttFundDatas.size() > 0) {
+				ttmaDataMapper.insertList(ttFundDatas);
+				resultSize += ttFundDatas.size();
+			}
+			
+			TsTaskInfo tsTaskInfo = new TsTaskInfo();
+			tsTaskInfo.setTaskStatus("2");
+			tsTaskInfo.setTaskReturnMessage(String.valueOf(resultSize));
+			tsTaskInfo.setTaskBatch(taskBatch);
+			tsTaskInfo.setCreateUserId("admin");
+			tsTaskInfo.setCreateDate(time);
+			tsTaskInfo.setTaskReturnDate(sdf.format(time));
+			tsTaskInfoMapper.insertSelective(tsTaskInfo);
 			System.out.println("耗时:"+ (System.currentTimeMillis() - ct));
+			*/
 		}
 		
-		
 	}
+	
 }

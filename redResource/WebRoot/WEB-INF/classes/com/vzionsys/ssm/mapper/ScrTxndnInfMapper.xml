@@ -102,6 +102,15 @@
     from SCR_TXNDN_INF
     where ID = #{id,jdbcType=INTEGER}
   </select>
+
+ <select id="selectByAccnos" resultMap="BaseResultMap">
+    select SCR_TXN_ACCNO,SCR_PD_ECD from SCR_TXNDN_INF where SCR_TXN_ACCNO in
+    <foreach collection="list" item="ACCNO_ID" open="(" close=")" separator=",">
+    #{ACCNO_ID}
+    </foreach>
+    and UPLOAD_BATCH = #{upload_batch}
+ </select>
+ 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from SCR_TXNDN_INF
     where ID = #{id,jdbcType=INTEGER}

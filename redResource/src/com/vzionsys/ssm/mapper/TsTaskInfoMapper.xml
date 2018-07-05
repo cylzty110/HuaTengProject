@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vzionsys.ssm.mapper.TsTaskInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.vzionsys.ssm.po.TsTaskInfo" >
+    <id column="TASK_ID" property="taskId" jdbcType="INTEGER" />
+    <result column="TASK_TABLE_MSG" property="taskTableMsg" jdbcType="VARCHAR" />
+    <result column="TASK_TABLE_BATCH_MSG" property="taskTableBatchMsg" jdbcType="VARCHAR" />
+    <result column="TASK_RETURN_MESSAGE" property="taskReturnMessage" jdbcType="VARCHAR" />
+    <result column="TASK_DATE" property="taskDate" jdbcType="VARCHAR" />
+    <result column="TASK_RETURN_DATE" property="taskReturnDate" jdbcType="VARCHAR" />
+    <result column="TASK_BATCH" property="taskBatch" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="TASK_STATUS" property="taskStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    TASK_ID, TASK_TABLE_MSG, TASK_TABLE_BATCH_MSG, TASK_RETURN_MESSAGE, TASK_DATE, TASK_RETURN_DATE, 
+    TASK_BATCH, CREATE_USER_ID, CREATE_DATE, TASK_STATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.vzionsys.ssm.po.TsTaskInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TS_TASK_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TS_TASK_INFO
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TS_TASK_INFO
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vzionsys.ssm.po.TsTaskInfoExample" >
+    delete from TS_TASK_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vzionsys.ssm.po.TsTaskInfo" >
+    insert into TS_TASK_INFO (TASK_ID, TASK_TABLE_MSG, TASK_TABLE_BATCH_MSG, 
+      TASK_RETURN_MESSAGE, TASK_DATE, TASK_RETURN_DATE, 
+      TASK_BATCH, CREATE_USER_ID, CREATE_DATE, 
+      TASK_STATUS)
+    values (#{taskId,jdbcType=INTEGER}, #{taskTableMsg,jdbcType=VARCHAR}, #{taskTableBatchMsg,jdbcType=VARCHAR}, 
+      #{taskReturnMessage,jdbcType=VARCHAR}, #{taskDate,jdbcType=VARCHAR}, #{taskReturnDate,jdbcType=VARCHAR}, 
+      #{taskBatch,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{taskStatus,jdbcType=VARCHAR})
+  </insert>
+  
+   <insert id="insertList"  useGeneratedKeys="true" parameterType="java.util.List">
+    insert into TS_TASK_INFO (TASK_ID, TASK_TABLE_MSG, TASK_TABLE_BATCH_MSG, 
+      TASK_RETURN_MESSAGE, TASK_DATE, TASK_RETURN_DATE, 
+      TASK_BATCH, CREATE_USER_ID, CREATE_DATE, 
+      TASK_STATUS)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+     (#{item.taskId,jdbcType=INTEGER}, #{item.taskTableMsg,jdbcType=VARCHAR}, #{item.taskTableBatchMsg,jdbcType=VARCHAR}, 
+      #{item.taskReturnMessage,jdbcType=VARCHAR}, #{item.taskDate,jdbcType=VARCHAR}, #{item.taskReturnDate,jdbcType=VARCHAR}, 
+      #{item.taskBatch,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=VARCHAR}, #{item.createDate,jdbcType=TIMESTAMP}, 
+      #{item.taskStatus,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.vzionsys.ssm.po.TsTaskInfo" >
+    insert into TS_TASK_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        TASK_ID,
+      </if>
+      <if test="taskTableMsg != null" >
+        TASK_TABLE_MSG,
+      </if>
+      <if test="taskTableBatchMsg != null" >
+        TASK_TABLE_BATCH_MSG,
+      </if>
+      <if test="taskReturnMessage != null" >
+        TASK_RETURN_MESSAGE,
+      </if>
+      <if test="taskDate != null" >
+        TASK_DATE,
+      </if>
+      <if test="taskReturnDate != null" >
+        TASK_RETURN_DATE,
+      </if>
+      <if test="taskBatch != null" >
+        TASK_BATCH,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="taskStatus != null" >
+        TASK_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskTableMsg != null" >
+        #{taskTableMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTableBatchMsg != null" >
+        #{taskTableBatchMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taskReturnMessage != null" >
+        #{taskReturnMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDate != null" >
+        #{taskDate,jdbcType=VARCHAR},
+      </if>
+      <if test="taskReturnDate != null" >
+        #{taskReturnDate,jdbcType=VARCHAR},
+      </if>
+      <if test="taskBatch != null" >
+        #{taskBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskStatus != null" >
+        #{taskStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vzionsys.ssm.po.TsTaskInfoExample" resultType="java.lang.Integer" >
+    select count(*) from TS_TASK_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TS_TASK_INFO
+    <set >
+      <if test="record.taskId != null" >
+        TASK_ID = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskTableMsg != null" >
+        TASK_TABLE_MSG = #{record.taskTableMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskTableBatchMsg != null" >
+        TASK_TABLE_BATCH_MSG = #{record.taskTableBatchMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskReturnMessage != null" >
+        TASK_RETURN_MESSAGE = #{record.taskReturnMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskDate != null" >
+        TASK_DATE = #{record.taskDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskReturnDate != null" >
+        TASK_RETURN_DATE = #{record.taskReturnDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskBatch != null" >
+        TASK_BATCH = #{record.taskBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        CREATE_USER_ID = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.taskStatus != null" >
+        TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TS_TASK_INFO
+    set TASK_ID = #{record.taskId,jdbcType=INTEGER},
+      TASK_TABLE_MSG = #{record.taskTableMsg,jdbcType=VARCHAR},
+      TASK_TABLE_BATCH_MSG = #{record.taskTableBatchMsg,jdbcType=VARCHAR},
+      TASK_RETURN_MESSAGE = #{record.taskReturnMessage,jdbcType=VARCHAR},
+      TASK_DATE = #{record.taskDate,jdbcType=VARCHAR},
+      TASK_RETURN_DATE = #{record.taskReturnDate,jdbcType=VARCHAR},
+      TASK_BATCH = #{record.taskBatch,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{record.createUserId,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vzionsys.ssm.po.TsTaskInfo" >
+    update TS_TASK_INFO
+    <set >
+      <if test="taskTableMsg != null" >
+        TASK_TABLE_MSG = #{taskTableMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taskTableBatchMsg != null" >
+        TASK_TABLE_BATCH_MSG = #{taskTableBatchMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="taskReturnMessage != null" >
+        TASK_RETURN_MESSAGE = #{taskReturnMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDate != null" >
+        TASK_DATE = #{taskDate,jdbcType=VARCHAR},
+      </if>
+      <if test="taskReturnDate != null" >
+        TASK_RETURN_DATE = #{taskReturnDate,jdbcType=VARCHAR},
+      </if>
+      <if test="taskBatch != null" >
+        TASK_BATCH = #{taskBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskStatus != null" >
+        TASK_STATUS = #{taskStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vzionsys.ssm.po.TsTaskInfo" >
+    update TS_TASK_INFO
+    set TASK_TABLE_MSG = #{taskTableMsg,jdbcType=VARCHAR},
+      TASK_TABLE_BATCH_MSG = #{taskTableBatchMsg,jdbcType=VARCHAR},
+      TASK_RETURN_MESSAGE = #{taskReturnMessage,jdbcType=VARCHAR},
+      TASK_DATE = #{taskDate,jdbcType=VARCHAR},
+      TASK_RETURN_DATE = #{taskReturnDate,jdbcType=VARCHAR},
+      TASK_BATCH = #{taskBatch,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      TASK_STATUS = #{taskStatus,jdbcType=VARCHAR}
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </update>
+</mapper>

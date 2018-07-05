@@ -22,9 +22,10 @@ public class CategoryController {
 	@RequestMapping(value = "/model/predictByNum", method = RequestMethod.POST)
 	public @ResponseBody
 	String recommendClass(@RequestBody List<Request> requestList) throws Exception {
-		Request item = requestList.get(0);
+		Request item1 = requestList.get(0);
+		Request item2 = requestList.get(1);
 		String message;
-		message = scrTnacSqlService.selectByExample(item.getScrPdEcd(),item.getUploadBatch(),item.getTaskBatch());
+		message = scrTnacSqlService.selectByExample(item1.getScrPdEcd(),item1.getUploadBatch(),item2.getUploadBatch(),item1.getTaskBatch());
 		return message;
 	}
 }

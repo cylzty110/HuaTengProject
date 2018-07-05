@@ -15,10 +15,10 @@ public interface SimilarityMapper {
     int insert(Similarity record);
 
     int insertSelective(Similarity record);
-
-    List<Similarity> selectByExample(SimilarityExample example);
     
     int insertList(@Param("list")List<Similarity> list);
+
+    List<Similarity> selectByExample(SimilarityExample example);
 
     Similarity selectByPrimaryKey(Integer id);
 

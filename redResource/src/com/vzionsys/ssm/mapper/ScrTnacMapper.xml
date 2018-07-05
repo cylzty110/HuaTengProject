@@ -89,7 +89,12 @@
     <include refid="Base_Column_List" />
     from SCR_TNAC
     where ID = #{id,jdbcType=INTEGER}
+    
   </select>
+    <select id="selectAll" resultMap="BaseResultMap"  parameterType="java.lang.String">
+    select SCR_TXN_ACCNO from SCR_TNAC where UPLOAD_BATCH = #{upload_batch,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from SCR_TNAC
     where ID = #{id,jdbcType=INTEGER}

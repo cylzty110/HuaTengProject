@@ -8,5 +8,5 @@ import com.vzionsys.ssm.po.ScrTnac;
 import com.vzionsys.ssm.po.ScrTnacExample;
 
 public interface SqlService {
-	String selectByExample(String fundNum ,String uploadBatch, String taskBatch);
+	String selectByExample(String fundNum,String tnacUploadBatch,String txndnUploadBatch ,String taskBatch);
 }

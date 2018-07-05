@@ -19,6 +19,8 @@ public interface ScrTxndnInfMapper {
     List<ScrTxndnInf> selectByExample(ScrTxndnInfExample example);
 
     ScrTxndnInf selectByPrimaryKey(Integer id);
+    
+    List<ScrTxndnInf> selectByAccnos(@Param("list")List<String> list,@Param("upload_batch")String upload_batch);
 
     int updateByExampleSelective(@Param("record") ScrTxndnInf record, @Param("example") ScrTxndnInfExample example);
 

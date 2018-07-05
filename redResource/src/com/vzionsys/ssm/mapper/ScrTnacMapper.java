@@ -15,6 +15,8 @@ public interface ScrTnacMapper {
     int insert(ScrTnac record);
 
     int insertSelective(ScrTnac record);
+    
+    List<ScrTnac> selectAll(String upload_batch);
 
     List<ScrTnac> selectByExample(ScrTnacExample example);
 

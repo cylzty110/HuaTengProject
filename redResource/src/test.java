@@ -32,21 +32,21 @@ public class test {
        
         JSONArray array = JSONArray.fromObject(list);
         String s = array.toString();
-        s = "{'data'='12,135305,A02913006,220000000,04,1,1,04,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1'}";
+        //s = "{'data'='12,135305,A02913006,220000000,04,1,1,04,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1'}";
         System.out.println(s);
 
         BufferedReader reader = null;
         String result = "";
         try {
-            URL realUrl = new URL("http://10.60.103.125:8080/redResource/risk/predict");
+            URL realUrl = new URL("http://localhost:8080/redResource/model/predictByNum");
             HttpURLConnection conn = (HttpURLConnection)realUrl.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
             conn.setDoInput(true);
-            //conn.setRequestProperty("Content-Type","application/json");
+            conn.setRequestProperty("Content-Type","application/json");
             OutputStream out = new DataOutputStream(conn.getOutputStream()) ;
             conn.connect();
-			out.write("data:12,135305,A02913006,220000000,04,1,1,04,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1".getBytes());
+			out.write(s.getBytes());
 			out.flush();
 			out.close();
 			InputStream is = conn.getInputStream();
